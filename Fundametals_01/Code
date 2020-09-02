@@ -1,1 +1,51 @@
+void setup()
+{
+  size(768, 432);
+}
 
+void draw()
+{
+  background(50, 166, 240);
+  stroke(202, 25, 25);
+  strokeWeight(5);
+  // Guide Lines
+  //line(150, 135, 600, 135);
+  //line(150, 265, 600, 265);
+
+  // C
+  c(250, 200);
+
+  // A
+  a(340, 200);
+
+  // R
+  r(400, 200);
+
+  // L
+  l(480, 200);
+}
+
+void c(float position_leftright, float position_updown) 
+{
+  arc(position_leftright, position_updown, 120, 120, 1, 5.25, PIE);
+}
+
+void a(float position_leftright, float position_updown)
+{
+  triangle(position_leftright, -58 + position_updown, -25 + position_leftright, position_updown, 25 + position_leftright, position_updown);
+  line(-25 + position_leftright, position_updown, -50 + position_leftright, 60 + position_updown);
+  line(25 + position_leftright, position_updown, 50 + position_leftright, 60 + position_updown);
+}
+
+void r(float position_leftright, float position_updown)
+{
+  rect(position_leftright, -60 + position_updown, 60, 60, 0, 20, 20, 0);
+  line(position_leftright, position_updown, position_leftright, 60 + position_updown);
+  line(30 + position_leftright, position_updown, 60 + position_leftright, 60 + position_updown);
+}
+
+void l(float position_leftright, float position_updown)
+{
+  line(position_leftright, -60 + position_updown, position_leftright, 60 + position_updown);
+  line(position_leftright, 60 + position_updown, 70 + position_leftright, 60 + position_updown);
+}
