@@ -1,3 +1,13 @@
+int x = 250;
+int y = 200;
+boolean move_horizontal = true;
+boolean move_vertical = true;
+
+// left boundary, x = 63
+// right boundary, x = 465
+// top boundary, y = 63
+// bottom boundary, y = 369
+
 void setup()
 {
   size(768, 432);
@@ -5,26 +15,55 @@ void setup()
 
 void draw()
 {
-  background(50, 166, 240);
-  stroke(202, 25, 25);
+  background(30, 30, 30);
   strokeWeight(5);
-  // Guide Lines
-  //line(150, 135, 600, 135);
-  //line(150, 265, 600, 265);
 
-  // C
-  c(250, 200);
+  // Movement & bouncing
+  if (x == 63) {
+    move_horizontal = true;
+  } else if (x == 465) {
+    move_horizontal = false;
+  }
 
-  // A
-  a(340, 200);
+  if (y == 63) {
+    move_vertical = true;
+  } else if (y == 369) {
+    move_vertical = false;
+  }
 
-  // R
-  r(400, 200);
+  if (move_horizontal == true) {
+    x++;
+  } else if (move_horizontal == false) {
+    x--;
+  }
 
-  // L
-  l(480, 200);
+  if (move_vertical == true) {
+    y++;
+  } else if (move_vertical == false) {
+    y--;
+  }
+  
+  // Color Changing
+  if (x > 400) {
+  stroke(0, 0, 255);
+  } else if (x > 300) {
+  stroke(202, 25, 25);
+  } else if (x > 200) {
+  stroke(0, 255, 0);
+  } else if (x > 100) {
+  stroke(128, 128, 0);
+  } else if (x > 0) {
+  stroke(128, 0, 128);
+  }
+
+  c(x, y);
+  a(x + 90, y);
+  r(x + 150, y);
+  l(x + 230, y);
+  
 }
 
+// Letter Functions
 void c(float position_leftright, float position_updown) 
 {
   arc(position_leftright, position_updown, 120, 120, 1, 5.25, PIE);
