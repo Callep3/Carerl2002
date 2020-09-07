@@ -1,13 +1,10 @@
 int spaceBetween = 10;
-int axis1 = 750;
-int axis2 = 750;
 int numberOfLines = 75;
 int numberOfLinesWithSpace = spaceBetween * numberOfLines;
 
 void setup()
 {
   size(750, 750);
-
 }
 
 void draw()
@@ -22,6 +19,7 @@ void parabolicCurve()
 {
 	for (int i = 0; i < numberOfLinesWithSpace; i = i + spaceBetween) 
 	    {
+	    	//Every 3'rd line is black, while the others are grey
 	    	if (i % 3 != 0) 
 	    	{
 	    		stroke(128, 128, 128, 64);
@@ -29,7 +27,7 @@ void parabolicCurve()
 	    		stroke(0, 0, 0);
 	    	}
 
-	    	line(0, i % axis2, i % axis1, axis2);
+	    	line(0, i % height, i % width, height);
 
 	    }
 }
