@@ -1,0 +1,109 @@
+boolean mouseHeld = false;
+boolean travel = false;
+float score = 0;
+float randomVectorX = random(width);
+float randomVectorY = random(height);
+PVector vectorTravel, circlePosition, vectorDistance, randomVector;
+int scoreInt;
+
+void setup()
+{
+	size(640, 480);
+	rectMode(CENTER);
+	circlePosition = new PVector(width / 2, height / 2);
+}
+
+void draw()
+{
+	background(50, 166, 240);
+	stroke(202, 25, 25);
+	strokeWeight(2.5);
+
+	ellipse(circlePosition.x, circlePosition.y, 20, 20);
+
+	textSize(32);
+	text("Score: " + scoreInt, 10, 30);
+	textSize(20);
+	text("Space = Pause movement", width - 260, 20);
+	text("E = Reset ball position", width - 260, 40);
+	text("R = Reset Game", width - 260, 60);
+
+	//if the ball is supposed to move
+	if (travel == true) 
+	{
+
+	//bouncing of the ball
+  		if (circlePosition.x > width || circlePosition.x < 0) 
+  		{
+  			vectorTravel.x = vectorTravel.x * -1;
+    	} else if (circlePosition.y > height || circlePosition.y < 0) 
+    	{
+	    	vectorTravel.y = vectorTravel.y * -1;
+	    }
+			//the balls movement
+  			circlePosition.x += vectorTravel.x;
+  			circlePosition.y += vectorTravel.y;
+
+		//for some player inputs, incase of bugs or the likes
+	  	if (keyPressed)
+	  	{
+	  		//pause
+  			if (key == 32) 
+	  		{
+	  			travel = false;
+	  		}
+	  		//reset position
+	  		if (key == 'e' || key == 'E') {
+	  			circlePosition = new PVector(width / 2, height / 2);
+	  			travel = false;
+	  		}
+	  		//reset game
+	  		if (key == 'r'|| key == 'R')
+	  		{
+	  			circlePosition = new PVector(width / 2, height / 2);
+	  			travel = false;
+	  			score = 0;
+	  			scoreInt = 0;
+	  		}
+	  	}
+
+	  	//outer boarder to automatically put the ball back into the box in case it goes out too far
+	  	if (circlePosition.x > width * 2 || circlePosition.x < -width || circlePosition.y > height * 2 || circlePosition.y < -height) {
+	  		circlePosition.x = width / 2;
+	  		circlePosition.y = height / 2;
+	  	}
+	}
+  
+  if (mouseHeld == true)
+  {
+  	line(mouseX, mouseY, circlePosition.x, circlePosition.y);
+  	stroke(202, 120, 25, 150);
+  	line(randomVector.x, randomVector.y, circlePosition.x, circlePosition.y);
+  }
+  
+}
+
+void mousePressed()
+{
+	mouseHeld = true;
+
+	//used to generate a random vector anywhere within the screen
+	randomVectorX = random(width);
+	randomVectorY = random(height);
+	randomVector = new PVector(randomVectorX, randomVectorY);
+}
+
+void mouseReleased()
+{
+	mouseHeld = false;
+	//the position of the mouse
+	vectorDistance = new PVector(mouseX, mouseY);
+	//the direction of the circle, towards the mouse
+	vectorTravel = new PVector(mouseX - circlePosition.x, mouseY - circlePosition.y).normalize();
+	//multiplying the distance between the circle and the mouse and divide it by 15 to not have too high of a velocity
+	vectorTravel = vectorTravel.mult((circlePosition.dist(vectorDistance)) / 15);
+	travel = true;
+
+	//makes the score into a int to easier be read
+	scoreInt = int(Math.round(scoreInt + (1000 / (abs(vectorDistance.x - randomVector.x) + abs(vectorDistance.y - randomVector.y)))));
+}
